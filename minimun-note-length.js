@@ -21,7 +21,7 @@ autowatch = 1;
 var notes = [];
 
 // reset array which holds notes which are in "on" state
-function reset() { notes = []; } 
+function reset() { notes = []; }
 
 /** inlet 0 - list
 
@@ -32,10 +32,9 @@ function list( note, velocity )
 	// post( "\n" );
 	// post( " received list " + [note,velocity] );
 	// post( "\n" );
-	
-	if( velocity == 0 ) {
-		on_note_off( note );
-	} else {
+
+	if( velocity === 0 ) on_note_off( note );
+	else {
 		on_note_on( note );
 
 		// let the note on freely pass
@@ -47,7 +46,7 @@ function list( note, velocity )
 list.immediate = 1;
 
 // handles note on event
-function on_note_on( note, velocity ) 
+function on_note_on( note, velocity )
 {
 	// if receives note on before sending scheduled note off message
 	if( notes[note] !== undefined ) {
@@ -60,7 +59,7 @@ function on_note_on( note, velocity )
 }
 
 // handles note off event	
-function on_note_off( note ) 
+function on_note_off( note )
 {
 	var duration;
 	
@@ -80,18 +79,17 @@ function on_note_off( note )
 
 // schedules a note off message to happen in defined delay time
 // in milliseconds.
-function delay( delay, note ) 
+function delay( delay, note )
 {
 
 	// post( "\n" );
 	// post( "--- delaying " + note + " by " + delay + " ms " );
 	// post( "\n" );
 
-	task = new Task( function( note ) {  
+	var task, funk;
 
-		return send_note_off( note );
-		
-	}, this, [ note ] );
+	funk = function( note ) { send_note_off( note ); };
+	task = new Task( funk, this, [ note ] );
 
 	task.schedule( delay );
 
@@ -104,7 +102,7 @@ function get_min_length() {
 }
 
 // send_note_offs a list prepared for 
-function send_note_off( note ) 
+function send_note_off( note )
 {
 	// stop the scheduler for note off - if there's one
 	if( notes[note].task ) notes[note].task.cancel();
