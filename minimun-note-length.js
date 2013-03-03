@@ -1,11 +1,21 @@
-// TODO : test more the "immediate", may we need in all functions ?
+/** 
+
+ * Herrmutt Lobby • Minimun Note length js 0.1
+ * (c) Herrmutt Lobby 2013 • herrmuttlobby.com
+ * This code is distributed under a 
+ * Creative Commons : Attribution, Share Alike, No-commercial Licence
+ *
+ * INPUT  : list [ note, velocity ]
+ * OUTPUT : list [ note, 0 ] - in the right scheduled time
+ *
+ * MADE TO BE USED WITHIN the JS object of MAX4LIVE or MAX/MSP or in PureData 
+ * with the jj object of the 
+ * PDJ external (http://www.le-son666.com/software/pdj/) 
+
+**/
 
 
-// theoretically tells max to watch and compile file automatically
 autowatch = 1;
-
-// TODO: output return of queried data over outlet 2
-outlets   = 2;
 
 // array( aka table ) of notes which are in "on" state
 var notes = [];
