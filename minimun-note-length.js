@@ -29,9 +29,9 @@ function reset() { notes = []; }
  **/
 function list( note, velocity )
 {
-	// post( "\n" );
+	// post();
 	// post( " received list " + [note,velocity] );
-	// post( "\n" );
+	// post();
 
 	if( velocity === 0 ) on_note_off( note );
 	else {
@@ -63,12 +63,22 @@ function on_note_off( note )
 {
 	var duration;
 	
+
 	time     = Date.now();
 	duration = parseInt( time - notes[note].time, 10 );
-		
+	
 	if( duration < get_min_length() ) {
 
-		delay( get_min_length() - duration, note );
+		var ms;
+
+		ms = get_min_length() - duration;
+
+		// post( "min_length : " + get_min_length() );
+		// post();
+		// post( "amount : " + get_amount() );
+		// post();
+
+		delay( ms * get_amount(), note );
 
 	} else {
 
@@ -82,9 +92,9 @@ function on_note_off( note )
 function delay( delay, note )
 {
 
-	// post( "\n" );
+	// post();
 	// post( "--- delaying " + note + " by " + delay + " ms " );
-	// post( "\n" );
+	// post();
 
 	var task, funk;
 
@@ -101,6 +111,17 @@ function get_min_length() {
 	return parseInt( this.patcher.getnamed( 'min_length' ).getvalueof(), 10 );
 }
 
+// get amount from knob via "script name"
+function get_amount() {
+
+	// trick to wipe all numbers after second decimal case
+	var float;
+
+	float = this.patcher.getnamed( 'amount' ).getvalueof();
+
+	return Math.round( float * 100 ) / 100;
+}
+
 // send_note_offs a list prepared for 
 function send_note_off( note )
 {
@@ -111,9 +132,9 @@ function send_note_off( note )
 	delete notes[note].task;
 	delete notes[note];
 
-	// post( "\n" );
+	// post();
 	// post( " --> sending note off " + note );
-	// post( "\n" );
+	// post();
 
 	outlet( 0, note, 0 );
 }
